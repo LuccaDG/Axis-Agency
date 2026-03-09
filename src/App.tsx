@@ -14,7 +14,8 @@ import {
   CheckCircle2,
   Mail,
   Phone,
-  Instagram
+  Instagram,
+  Star
 } from 'lucide-react';
 
 export default function App() {
@@ -145,58 +146,21 @@ export default function App() {
     'Crescimento de PMEs',
   ];
 
-  const [activeCategory, setActiveCategory] = useState('Todos');
+  const [reviewData, setReviewData] = useState({ name: '', company: '', rating: 5, text: '' });
+  const [isReviewSubmitting, setIsReviewSubmitting] = useState(false);
+  const [isReviewSuccess, setIsReviewSuccess] = useState(false);
 
-  const testimonials = [
-    {
-      initials: 'DR',
-      role: 'Diretor Clínico',
-      company: 'Saúde & Estética Premium',
-      category: 'Médico',
-      text: 'Estávamos estagnados no faturamento da clínica. Após a reestruturação do funil de vendas e gestão de tráfego focada em procedimentos de alto ticket, triplicamos nosso faturamento em 4 meses.',
-    },
-    {
-      initials: 'CM',
-      role: 'CEO',
-      company: 'Empresa de Software (SaaS)',
-      category: 'PME',
-      text: 'A equipe não apenas rodou nossos anúncios, mas reestruturou toda a argumentação de vendas do nosso time comercial. A taxa de conversão dos leads saltou de 12% para impressionantes 38%.',
-    },
-    {
-      initials: 'AP',
-      role: 'Especialista',
-      company: 'Infoprodutor High-Ticket',
-      category: 'Infoprodutor',
-      text: 'Lançar nossos infoprodutos era sempre uma aposta. Hoje, temos um perpétuo que roda com previsibilidade absurda e um ROI médio de 400%. O crescimento online é evidente.',
-    },
-    {
-      initials: 'JF',
-      role: 'Médico Especialista',
-      company: 'Clínica de Dermatologia',
-      category: 'Médico',
-      text: 'A AXIS transformou nossa presença digital. O volume de agendamentos qualificados cresceu 150% no primeiro trimestre de parceria.',
-    },
-    {
-      initials: 'LM',
-      role: 'Fundador',
-      company: 'Plataforma E-learning',
-      category: 'Infoprodutor',
-      text: 'A estratégia de tráfego para nossos lançamentos é impecável. Batemos recorde de vendas em 3 lançamentos consecutivos.',
-    },
-    {
-      initials: 'RB',
-      role: 'Proprietário',
-      company: 'Rede de Franquias',
-      category: 'PME',
-      text: 'Escalar uma rede de franquias exige precisão. A AXIS nos deu a inteligência de dados necessária para expandir com segurança.',
-    },
-  ];
-
-  const categories = ['Todos', 'Médico', 'Infoprodutor', 'PME'];
-
-  const filteredTestimonials = activeCategory === 'Todos' 
-    ? testimonials 
-    : testimonials.filter(t => t.category === activeCategory);
+  const handleReviewSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsReviewSubmitting(true);
+    // Simulating API call
+    setTimeout(() => {
+      setIsReviewSubmitting(false);
+      setIsReviewSuccess(true);
+      setReviewData({ name: '', company: '', rating: 5, text: '' });
+      setTimeout(() => setIsReviewSuccess(false), 5000);
+    }, 1500);
+  };
 
   const whatsappUrl = "https://wa.me/5569992995353?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20atendimento.";
 
@@ -598,8 +562,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="py-20 md:py-32 bg-main-bg relative z-10 border-t border-gray-100">
+      {/* REVIEWS SECTION */}
+      <section id="avaliacoes" className="py-20 md:py-32 bg-main-bg relative z-10 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <motion.div 
             initial={{ y: 30, opacity: 0 }}
@@ -608,56 +572,96 @@ export default function App() {
             transition={{ duration: 0.6 }}
             className="mb-16 md:mb-20 text-center"
           >
-            <h2 className="font-display text-3xl md:text-5xl font-extrabold tracking-tighter mb-3 md:mb-4 text-dark-text">O Padrão <span className="text-primary">AXIS.</span></h2>
-            <p className="text-body-text text-base md:text-lg font-medium mb-8">A autoridade se constrói com resultados inquestionáveis.</p>
-            
-            <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
-                    activeCategory === cat 
-                      ? 'bg-primary text-white shadow-lg shadow-primary/30 scale-105' 
-                      : 'bg-surface text-body-text hover:bg-gray-200'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
+            <h2 className="font-display text-3xl md:text-5xl font-extrabold tracking-tighter mb-3 md:mb-4 text-dark-text">Sua Opinião é <span className="text-primary">Fundamental.</span></h2>
+            <p className="text-body-text text-base md:text-lg font-medium max-w-2xl mx-auto">
+              Como estamos em fase inicial, valorizamos cada feedback. Se você já utilizou nossos serviços, deixe sua avaliação espontânea abaixo.
+            </p>
           </motion.div>
 
-          <motion.div 
-            layout
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredTestimonials.map((t, i) => (
-                <motion.div 
-                  key={t.company}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.4 }}
-                  className="modern-card p-6 md:p-8 rounded-2xl relative flex flex-col"
+          <div className="max-w-2xl mx-auto">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="modern-card p-8 md:p-10 rounded-[2rem] shadow-xl"
+            >
+              <form onSubmit={handleReviewSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-dark-text ml-1">Seu Nome</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Ex: João Silva"
+                      value={reviewData.name}
+                      onChange={(e) => setReviewData({ ...reviewData, name: e.target.value })}
+                      className="w-full px-4 py-3 bg-white border border-black/5 rounded-xl focus:outline-none focus:border-primary transition-colors text-dark-text"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-dark-text ml-1">Empresa / Cargo</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Ex: CEO da TechCorp"
+                      value={reviewData.company}
+                      onChange={(e) => setReviewData({ ...reviewData, company: e.target.value })}
+                      className="w-full px-4 py-3 bg-white border border-black/5 rounded-xl focus:outline-none focus:border-primary transition-colors text-dark-text"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-dark-text ml-1">Sua Avaliação</label>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setReviewData({ ...reviewData, rating: star })}
+                        className="focus:outline-none transition-transform hover:scale-110"
+                      >
+                        <Star 
+                          className={`w-8 h-8 ${star <= reviewData.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} 
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-dark-text ml-1">Seu Depoimento</label>
+                  <textarea
+                    required
+                    placeholder="Conte-nos sobre sua experiência com a AXIS AGENCY..."
+                    rows={4}
+                    value={reviewData.text}
+                    onChange={(e) => setReviewData({ ...reviewData, text: e.target.value })}
+                    className="w-full px-4 py-3 bg-white border border-black/5 rounded-xl focus:outline-none focus:border-primary transition-colors text-dark-text resize-none"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isReviewSubmitting}
+                  className="w-full py-4 bg-primary hover:bg-primary-hover disabled:bg-gray-400 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
                 >
-                  <div className="text-primary flex justify-center gap-1 mb-4 md:mb-6 text-lg md:text-xl">
-                    ★★★★★
-                  </div>
-                  <p className="text-body-text text-sm italic leading-relaxed mb-6 font-medium text-center">"{t.text}"</p>
-                  <div className="flex flex-col items-center gap-4 border-t border-gray-200 pt-4 mt-auto">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-extrabold font-display text-primary flex-shrink-0">{t.initials}</div>
-                    <div className="text-center">
-                      <p className="text-sm font-extrabold text-dark-text">{t.role}</p>
-                      <p className="text-xs text-body-text font-medium">{t.company}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+                  {isReviewSubmitting ? 'Enviando...' : 'Publicar Avaliação'}
+                  {!isReviewSubmitting && <CheckCircle2 className="w-5 h-5" />}
+                </button>
+
+                {isReviewSuccess && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 bg-green-50 border border-green-100 rounded-xl text-green-700 text-center font-medium"
+                  >
+                    Obrigado! Sua avaliação foi recebida e será analisada para publicação.
+                  </motion.div>
+                )}
+              </form>
+            </motion.div>
+          </div>
         </div>
       </section>
 
