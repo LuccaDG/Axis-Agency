@@ -1,0 +1,95 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap');
+
+@theme {
+  --font-display: "Syne", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  
+  --color-primary: #0066CC;
+  --color-primary-hover: #004c99;
+  --color-main-bg: #FFFFFF;
+  --color-surface: #F3F4F6;
+  --color-dark-text: #000000;
+  --color-body-text: #1F2937;
+  --color-whatsapp: #25D366;
+  --color-whatsapp-hover: #1ebe57;
+  --color-card-bg: #FFFFFF;
+  --color-icon-bg: #E5E7EB;
+  --color-icon-color: #0F172A;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-body-text font-sans antialiased selection:bg-primary selection:text-white overflow-x-hidden;
+  }
+}
+
+@layer components {
+  .modern-card {
+    @apply bg-surface border border-black/5 transition-all duration-500;
+  }
+  .modern-card:hover {
+    @apply bg-white shadow-[0_20px_40px_-10px_rgba(0,102,204,0.1)] border-primary/20 -translate-y-1;
+  }
+
+  .service-card {
+    @apply bg-white border border-black/10 rounded-[1.25rem] p-6 md:p-8 transition-all duration-300 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.02),0_2px_4px_-1px_rgba(0,0,0,0.02)] flex flex-col justify-start;
+  }
+  .service-card:hover {
+    @apply shadow-[0_20px_25px_-5px_rgba(0,0,0,0.05),0_10px_10px_-5px_rgba(0,0,0,0.02)] -translate-y-1 border-primary/30;
+  }
+
+  .icon-box {
+    @apply bg-icon-bg w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center mb-5 md:mb-6 transition-all duration-300;
+  }
+  .service-card:hover .icon-box {
+    @apply bg-primary;
+  }
+  .icon-box svg {
+    @apply text-icon-color w-7 h-7 md:w-8 md:h-8 stroke-2 transition-all duration-300;
+  }
+  .service-card:hover .icon-box svg {
+    @apply text-white;
+  }
+
+  .text-gradient {
+    @apply bg-linear-to-br from-black to-primary bg-clip-text text-transparent;
+  }
+
+  .hero-gradient {
+    background: radial-gradient(circle at 80% 20%, rgba(0, 102, 204, 0.08) 0%, rgba(255, 255, 255, 0) 60%);
+  }
+
+  .dark-gradient-bg {
+    @apply bg-linear-to-br from-black to-body-text;
+  }
+
+  .img-overlay::after {
+    content: '';
+    @apply absolute inset-0 bg-linear-to-t from-black/80 to-transparent;
+  }
+
+  .quote-border {
+    border-left: 4px solid;
+    border-image: linear-gradient(to bottom, #0066CC, #000000) 1 100%;
+  }
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - 2rem)); }
+}
+
+.marquee-content {
+  animation: scroll 30s linear infinite;
+}
+
+@media (min-width: 768px) {
+  @keyframes scroll-md {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% - 4rem)); }
+  }
+  .marquee-content {
+    animation: scroll-md 30s linear infinite;
+  }
+}
