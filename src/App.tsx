@@ -13,7 +13,8 @@ import {
   ArrowUpRight,
   CheckCircle2,
   Mail,
-  Phone
+  Phone,
+  Instagram
 } from 'lucide-react';
 
 export default function App() {
@@ -144,26 +145,58 @@ export default function App() {
     'Crescimento de PMEs',
   ];
 
+  const [activeCategory, setActiveCategory] = useState('Todos');
+
   const testimonials = [
     {
       initials: 'DR',
       role: 'Diretor Clínico',
       company: 'Saúde & Estética Premium',
+      category: 'Médico',
       text: 'Estávamos estagnados no faturamento da clínica. Após a reestruturação do funil de vendas e gestão de tráfego focada em procedimentos de alto ticket, triplicamos nosso faturamento em 4 meses.',
     },
     {
       initials: 'CM',
       role: 'CEO',
       company: 'Empresa de Software (SaaS)',
+      category: 'PME',
       text: 'A equipe não apenas rodou nossos anúncios, mas reestruturou toda a argumentação de vendas do nosso time comercial. A taxa de conversão dos leads saltou de 12% para impressionantes 38%.',
     },
     {
       initials: 'AP',
       role: 'Especialista',
       company: 'Infoprodutor High-Ticket',
+      category: 'Infoprodutor',
       text: 'Lançar nossos infoprodutos era sempre uma aposta. Hoje, temos um perpétuo que roda com previsibilidade absurda e um ROI médio de 400%. O crescimento online é evidente.',
     },
+    {
+      initials: 'JF',
+      role: 'Médico Especialista',
+      company: 'Clínica de Dermatologia',
+      category: 'Médico',
+      text: 'A AXIS transformou nossa presença digital. O volume de agendamentos qualificados cresceu 150% no primeiro trimestre de parceria.',
+    },
+    {
+      initials: 'LM',
+      role: 'Fundador',
+      company: 'Plataforma E-learning',
+      category: 'Infoprodutor',
+      text: 'A estratégia de tráfego para nossos lançamentos é impecável. Batemos recorde de vendas em 3 lançamentos consecutivos.',
+    },
+    {
+      initials: 'RB',
+      role: 'Proprietário',
+      company: 'Rede de Franquias',
+      category: 'PME',
+      text: 'Escalar uma rede de franquias exige precisão. A AXIS nos deu a inteligência de dados necessária para expandir com segurança.',
+    },
   ];
+
+  const categories = ['Todos', 'Médico', 'Infoprodutor', 'PME'];
+
+  const filteredTestimonials = activeCategory === 'Todos' 
+    ? testimonials 
+    : testimonials.filter(t => t.category === activeCategory);
 
   const whatsappUrl = "https://wa.me/5569992995353?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20atendimento.";
 
@@ -329,7 +362,7 @@ export default function App() {
             <p className="text-body-text text-base md:text-lg font-medium px-4 leading-relaxed">Pilares estratégicos baseados em dados para escalar sua operação e garantir o crescimento sustentável do seu negócio.</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 auto-rows-fr">
             {services.map((service, i) => (
               <motion.div 
                 key={i}
@@ -337,9 +370,9 @@ export default function App() {
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="service-card"
+                className="service-card group"
               >
-                <div className="icon-box">
+                <div className="icon-box mx-auto">
                   <div className="w-7 h-7 md:w-8 md:h-8 text-icon-color transition-colors duration-300 group-hover:text-white">
                     {service.icon}
                   </div>
@@ -576,33 +609,55 @@ export default function App() {
             className="mb-16 md:mb-20 text-center"
           >
             <h2 className="font-display text-3xl md:text-5xl font-extrabold tracking-tighter mb-3 md:mb-4 text-dark-text">O Padrão <span className="text-primary">AXIS.</span></h2>
-            <p className="text-body-text text-base md:text-lg font-medium">A autoridade se constrói com resultados inquestionáveis.</p>
+            <p className="text-body-text text-base md:text-lg font-medium mb-8">A autoridade se constrói com resultados inquestionáveis.</p>
+            
+            <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
+                    activeCategory === cat 
+                      ? 'bg-primary text-white shadow-lg shadow-primary/30 scale-105' 
+                      : 'bg-surface text-body-text hover:bg-gray-200'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {testimonials.map((t, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="modern-card p-6 md:p-8 rounded-2xl relative flex flex-col"
-              >
-                <div className="text-primary flex justify-center gap-1 mb-4 md:mb-6 text-lg md:text-xl">
-                  ★★★★★
-                </div>
-                <p className="text-body-text text-sm italic leading-relaxed mb-6 font-medium text-center">"{t.text}"</p>
-                <div className="flex flex-col items-center gap-4 border-t border-gray-200 pt-4 mt-auto">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-extrabold font-display text-primary flex-shrink-0">{t.initials}</div>
-                  <div className="text-center">
-                    <p className="text-sm font-extrabold text-dark-text">{t.role}</p>
-                    <p className="text-xs text-body-text font-medium">{t.company}</p>
+          <motion.div 
+            layout
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredTestimonials.map((t, i) => (
+                <motion.div 
+                  key={t.company}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.4 }}
+                  className="modern-card p-6 md:p-8 rounded-2xl relative flex flex-col"
+                >
+                  <div className="text-primary flex justify-center gap-1 mb-4 md:mb-6 text-lg md:text-xl">
+                    ★★★★★
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                  <p className="text-body-text text-sm italic leading-relaxed mb-6 font-medium text-center">"{t.text}"</p>
+                  <div className="flex flex-col items-center gap-4 border-t border-gray-200 pt-4 mt-auto">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-extrabold font-display text-primary flex-shrink-0">{t.initials}</div>
+                    <div className="text-center">
+                      <p className="text-sm font-extrabold text-dark-text">{t.role}</p>
+                      <p className="text-xs text-body-text font-medium">{t.company}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </section>
 
@@ -696,10 +751,29 @@ export default function App() {
 
           <div className="border-t border-white/10 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6 text-xs text-gray-400 font-medium text-center md:text-left">
             <p>Copyright &copy; 2026 AXIS AGENCY. Todos os direitos reservados.</p>
-            <div className="flex gap-4 md:gap-6">
-              <a href="#" className="hover:text-primary transition-colors">Instagram</a>
-              <a href="#" className="hover:text-primary transition-colors">LinkedIn</a>
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="hover:text-whatsapp transition-colors">WhatsApp</a>
+            <div className="flex gap-6">
+              <a 
+                href="https://www.instagram.com/axis.agencyofc/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-2 hover:text-primary transition-all duration-300 group"
+              >
+                <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <span className="hidden sm:inline">Instagram</span>
+              </a>
+              <a 
+                href={whatsappUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-2 hover:text-whatsapp transition-all duration-300 group"
+              >
+                <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <span className="hidden sm:inline">WhatsApp</span>
+              </a>
+              <a href="#" className="flex items-center gap-2 hover:text-primary transition-all duration-300 group">
+                <Briefcase className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <span className="hidden sm:inline">LinkedIn</span>
+              </a>
             </div>
           </div>
         </div>

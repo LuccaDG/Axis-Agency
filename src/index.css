@@ -36,14 +36,21 @@
   }
 
   .service-card {
-    @apply bg-white border border-black/10 rounded-[1.25rem] p-6 md:p-8 transition-all duration-300 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.02),0_2px_4px_-1px_rgba(0,0,0,0.02)] flex flex-col justify-start;
+    @apply bg-white border border-black/5 rounded-[2rem] p-8 md:p-10 transition-all duration-500 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] flex flex-col items-center text-center relative overflow-hidden;
+  }
+  .service-card::before {
+    content: '';
+    @apply absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 transition-opacity duration-500;
   }
   .service-card:hover {
-    @apply shadow-[0_20px_25px_-5px_rgba(0,0,0,0.05),0_10px_10px_-5px_rgba(0,0,0,0.02)] -translate-y-1 border-primary/30;
+    @apply shadow-[0_30px_60px_-20px_rgba(0,102,204,0.15)] -translate-y-2 border-primary/20;
+  }
+  .service-card:hover::before {
+    @apply opacity-100;
   }
 
   .icon-box {
-    @apply bg-icon-bg w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center mb-5 md:mb-6 transition-all duration-300;
+    @apply bg-surface w-16 h-16 md:w-20 md:h-20 rounded-[1.5rem] flex items-center justify-center mb-8 transition-all duration-500 relative z-10;
   }
   .service-card:hover .icon-box {
     @apply bg-primary;
